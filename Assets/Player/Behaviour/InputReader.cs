@@ -8,18 +8,18 @@ using UnityEngine.UI;
 public class InputReader : MonoBehaviour
 {
     public PlayerController player;
-    private InputManager Movement;
+    private InputManager inputManager;
     
     [SerializeField] private Vector2 inputDirection;
     void Start()
     {
-        Movement = new InputManager();
+        inputManager = new InputManager();
     
-        Movement.Enable();
+        inputManager.Enable();
         
-        Movement.Player.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
-        Movement.Player.Movement.canceled += ctx => Move(ctx.ReadValue<Vector2>());
-        Movement.Player.Jump.performed += ctx => Jump();
+        inputManager.Player.Movement.performed += ctx => Move(ctx.ReadValue<Vector2>());
+        inputManager.Player.Movement.canceled += ctx => Move(ctx.ReadValue<Vector2>());
+        inputManager.Player.Jump.performed += ctx => Jump();
     }
 
     void Move(Vector2 direction)
@@ -36,6 +36,4 @@ public class InputReader : MonoBehaviour
     {
         return inputDirection;
     }
-    
-    
 }

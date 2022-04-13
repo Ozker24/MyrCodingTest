@@ -15,11 +15,28 @@ public class MovementController : MonoBehaviour
     [SerializeField] private float gravityValue = -9.81f;
     [SerializeField] bool isGrounded;
 
+    public float GetSpeed()
+    {
+        return speed;
+    }
     public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+    public void AddSpeed(float newSpeed)
     {
         speed += newSpeed;
     }
-    public void SetJumpPower(float newJumpPower)
+    
+    public float GetJumpPower()
+    {
+        return jumpPower;
+    }
+    public void SetJumpPower(float newPower)
+    {
+        jumpPower = newPower;
+    }
+    public void AddJumpPower(float newJumpPower)
     {
         jumpPower += newJumpPower;
     }
@@ -38,11 +55,7 @@ public class MovementController : MonoBehaviour
 
     public void Jump()
     {
-        if (isGrounded)
-        {
-            Debug.Log("Jump");
-            movementDirection.y += Mathf.Sqrt(jumpPower * -3.0f * gravityValue);
-        }
+        if (isGrounded) movementDirection.y = Mathf.Sqrt(jumpPower * -3.0f * gravityValue);
     }
 
     private void Move()
@@ -51,10 +64,8 @@ public class MovementController : MonoBehaviour
 
         movementDirection.x = player.GetInputReader().GetInputMovement().x;
         movementDirection.z = player.GetInputReader().GetInputMovement().y;
-        
-        characterController.Move(movementDirection * Time.deltaTime * speed);
 
         movementDirection.y += gravityValue * Time.deltaTime;
-        characterController.Move(movementDirection * Time.deltaTime);
+        characterController.Move(movementDirection * Time.deltaTime * speed);
     }
 }
